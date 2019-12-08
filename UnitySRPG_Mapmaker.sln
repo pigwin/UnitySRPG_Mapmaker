@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2043
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitySRPG_Mapmaker", "UnitySRPG_Mapmaker\UnitySRPG_Mapmaker.csproj", "{18995171-EB03-4601-B492-CA79BBF78BFF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{18995171-EB03-4601-B492-CA79BBF78BFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18995171-EB03-4601-B492-CA79BBF78BFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18995171-EB03-4601-B492-CA79BBF78BFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18995171-EB03-4601-B492-CA79BBF78BFF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {62F13889-1477-4FE9-88A5-CCE91ABF51EE}
+	EndGlobalSection
+EndGlobal
