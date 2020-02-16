@@ -15,6 +15,9 @@ namespace UnitySRPG_Mapmaker
     {
         public int high;
         public int texture;
+        public int unit;
+        public int direction;
+        public int putable;
     }
     public partial class Form1 : Form
     {
@@ -40,6 +43,12 @@ namespace UnitySRPG_Mapmaker
 
         private void button4_Click(object sender, EventArgs e)
         {
+            int t = 0;
+            if (!(int.TryParse(textBox1.Text,out t) && int.TryParse(textBox2.Text,out t)))
+            {
+                MessageBox.Show("入力してください");
+                return;
+            }
             x = int.Parse(textBox1.Text);
             y = int.Parse(textBox2.Text);
             if(array == null)
@@ -136,6 +145,9 @@ namespace UnitySRPG_Mapmaker
             label4.Text = (sender as Button).Name;
             label6.Text = string.Format("{0}",matrix[y, x].high);
             label8.Text = string.Format("{0}", matrix[y, x].texture);
+            label9.Text = string.Format("{0}", matrix[y, x].unit);
+            label11.Text = string.Format("{0}",matrix[y,x].direction);
+            label13.Text = string.Format("{0}",matrix[y,x].putable);
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -305,6 +317,21 @@ namespace UnitySRPG_Mapmaker
             }
             sw.Flush();
             sw.Close();
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label13_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
