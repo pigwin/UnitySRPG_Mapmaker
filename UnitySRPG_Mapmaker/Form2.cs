@@ -13,12 +13,28 @@ namespace UnitySRPG_Mapmaker
     public partial class Form2 : Form
     {
         int x, y;
+        bool Hani = false;
+        int start_x, start_y;
+        int finish_x, finish_y;
         public Form2(string s)
         {
+            InitializeComponent();
+            if (s.Equals("hani"))
+            {
+                start_x = Form1.start_x;
+                start_y = Form1.start_y;
+                finish_x = Form1.finish_x;
+                finish_y = Form1.finish_y;
+                Form1.start_x = -1;
+                Form1.start_y = -1;
+                Form1.finish_x = -1;
+                Form1.finish_y = -1;
+                Hani = true;
+                return;
+            }
             string[] point = s.Split(',');
             x = int.Parse(point[1]);
             y = int.Parse(point[0]);
-            InitializeComponent();
             if (x != -1 && y != -1)
             {
                 numericUpDown1.Value = Form1.matrix[y, x].high;
@@ -92,6 +108,28 @@ namespace UnitySRPG_Mapmaker
             {
                 temp_force = 1;
             }
+            if (Hani)
+            {
+                
+                for(int i=start_x;i<= finish_x; i++)
+                {
+                    for(int j = start_y; j <= finish_y; j++)
+                    {
+                        Form1.matrix[i, j].high = temp_high;
+                        Form1.matrix[i, j].texture = temp_texture;
+                        Form1.matrix[i, j].unit = temp_unit;
+                        Form1.matrix[i, j].direction = temp_direction;
+                        Form1.matrix[i, j].putable = temp_putable;
+                        Form1.matrix[i, j].partymember = temp_partymember;
+                        Form1.matrix[i, j].force = temp_force;
+
+                        Form1.array[i, j].Text = string.Format("H{0}\nU{1}", Form1.matrix[i, j].high, Form1.matrix[i, j].unit);
+                        Form1.ColoredButton(i, j);
+                    }
+                }
+                this.Close();
+                return;
+            }
             if (x != -1 && y != -1)
             {
                 Form1.matrix[y, x].high = temp_high;
@@ -146,6 +184,13 @@ namespace UnitySRPG_Mapmaker
 
         private void button2_Click(object sender, EventArgs e)
         {
+            for (int i = start_x; i <= finish_x; i++)
+            {
+                for (int j = start_y; j <= finish_y; j++)
+                {
+                    Form1.array[i, j].BackColor = Color.White;
+                }
+            }
             this.Close();
         }
 
@@ -202,6 +247,20 @@ namespace UnitySRPG_Mapmaker
 
         }
 
+        private void Form2_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.ApplicationExitCall)
+            {
+                for (int i = start_x; i <= finish_x; i++)
+                {
+                    for (int j = start_y; j <= finish_y; j++)
+                    {
+                        Form1.array[i, j].BackColor = Color.White;
+                    }
+                }
+            }
+
+        }
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
 

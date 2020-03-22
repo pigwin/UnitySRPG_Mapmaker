@@ -26,6 +26,11 @@ namespace UnitySRPG_Mapmaker
         const int space_x = 35;
         const int space_y = 35;
         const int Box_size = 40;
+        public static int start_x = -1;
+        public static int start_y = -1;
+        public static int finish_x = -1;
+        public static int finish_y = -1;
+
         int x = 0;
         int y = 0;
         public static Data[,] matrix;
@@ -166,11 +171,52 @@ namespace UnitySRPG_Mapmaker
                     matrix[i, j].high = 1;
                     matrix[i, j].texture = 0;
                     temp.Click += ClickFunc;
+                    temp.MouseDown += MouseDown;
                     temp.MouseEnter += MouseOverFunc;
                     this.Controls.Add(temp);
                     array[i, j]=(temp);
                     ColoredButton(i, j);
                 }
+            }
+        }
+        private void MouseDown(Object sender, MouseEventArgs e)
+        {
+            int temp_x, temp_y;
+            switch (e.Button)
+            {
+                case MouseButtons.Right:
+                    string[] point = (sender as Button).Name.Split(',');
+                    temp_x = int.Parse(point[0]);
+                    temp_y = int.Parse(point[1]);
+                    if (start_x == -1 && start_y == -1)
+                    {
+                        start_x = temp_x;
+                        start_y = temp_y;
+                        array[start_x, start_y].BackColor = Color.Yellow;
+                    }
+                    else if(start_x != temp_x && start_y != temp_y)
+                    {
+                        finish_x = temp_x;
+                        finish_y = temp_y;
+                        start_x = Math.Min(Form1.start_x, Form1.finish_x);
+                        finish_x = Math.Max(Form1.start_x, Form1.finish_x);
+                        start_y = Math.Min(Form1.start_y, Form1.finish_y);
+                        finish_y = Math.Max(Form1.start_y, Form1.finish_y);
+                        for(int i = start_x; i <= finish_x; i++)
+                        {
+                            for(int j = start_y; j <= finish_y; j++)
+                            {
+                                array[i, j].BackColor = Color.Yellow;
+                            }
+                        }
+                        Form2 f = new Form2("hani");
+                        f.Show();
+                    }else if(start_x == temp_x && start_y == temp_y)
+                    {
+                        array[start_x, start_y].BackColor = Color.White;
+                        start_x = start_y = -1;
+                    }
+                    break;
             }
         }
         private void ClickFunc(Object sender,EventArgs e)
@@ -530,6 +576,11 @@ namespace UnitySRPG_Mapmaker
         private void timer1_Tick_1(object sender, EventArgs e)
         {
             this.Text = global_filename;
+
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
 
         }
     }
