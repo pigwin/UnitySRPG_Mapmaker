@@ -16,6 +16,7 @@ namespace UnitySRPG_Mapmaker
         bool Hani = false;
         int start_x, start_y;
         int finish_x, finish_y;
+        int button_check = 0;
         public Form2(string s)
         {
             InitializeComponent();
@@ -127,6 +128,7 @@ namespace UnitySRPG_Mapmaker
                         Form1.ColoredButton(i, j);
                     }
                 }
+                button_check = 1;
                 this.Close();
                 return;
             }
@@ -179,18 +181,12 @@ namespace UnitySRPG_Mapmaker
                     }
                 }
             }
+            button_check = 1;
             this.Close();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            for (int i = start_x; i <= finish_x; i++)
-            {
-                for (int j = start_y; j <= finish_y; j++)
-                {
-                    Form1.array[i, j].BackColor = Color.White;
-                }
-            }
             this.Close();
         }
 
@@ -247,18 +243,24 @@ namespace UnitySRPG_Mapmaker
 
         }
 
-        private void Form2_FormClosing(object sender, FormClosingEventArgs e)
+        private void Form2_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (e.CloseReason == CloseReason.ApplicationExitCall)
+            if (button_check == 0)
             {
-                for (int i = start_x; i <= finish_x; i++)
+                for(int i = start_x; i <= finish_x; i++)
                 {
-                    for (int j = start_y; j <= finish_y; j++)
+                    for(int j = start_y; j <= finish_y; j++)
                     {
-                        Form1.array[i, j].BackColor = Color.White;
+                        Form1.ColoredButton(i, j);
                     }
                 }
             }
+            button_check = 0;
+            Hani = false;
+        }
+
+        private void Form2_FormClosing(object sender, FormClosingEventArgs e)
+        {
 
         }
         private void checkBox3_CheckedChanged(object sender, EventArgs e)

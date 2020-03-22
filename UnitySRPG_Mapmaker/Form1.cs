@@ -194,14 +194,22 @@ namespace UnitySRPG_Mapmaker
                         start_y = temp_y;
                         array[start_x, start_y].BackColor = Color.Yellow;
                     }
-                    else if(start_x != temp_x && start_y != temp_y)
+                    else if(start_x != temp_x || start_y != temp_y)
                     {
                         finish_x = temp_x;
                         finish_y = temp_y;
-                        start_x = Math.Min(Form1.start_x, Form1.finish_x);
-                        finish_x = Math.Max(Form1.start_x, Form1.finish_x);
-                        start_y = Math.Min(Form1.start_y, Form1.finish_y);
-                        finish_y = Math.Max(Form1.start_y, Form1.finish_y);
+                        if(start_x > finish_x)
+                        {
+                            int temp = start_x;
+                            start_x = finish_x;
+                            finish_x = temp;
+                        }
+                        if(start_y > finish_y)
+                        {
+                            int temp = start_y;
+                            start_y = finish_y;
+                            finish_y = temp;
+                        }
                         for(int i = start_x; i <= finish_x; i++)
                         {
                             for(int j = start_y; j <= finish_y; j++)
