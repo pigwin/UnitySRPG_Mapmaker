@@ -82,6 +82,8 @@ namespace UnitySRPG_Mapmaker
                 Form1.matrix[y, x].putable = temp_putable;
                 Form1.matrix[y, x].partymember = temp_partymember;
                 Form1.matrix[y, x].force = temp_force;
+                Form1.ColoredButton(y, x);
+
             }
             else
             {
@@ -98,6 +100,7 @@ namespace UnitySRPG_Mapmaker
                         Form1.matrix[i, y].putable = temp_putable;
                         Form1.matrix[i, y].partymember = temp_partymember;
                         Form1.matrix[i, y].force = temp_force;
+                        Form1.ColoredButton(i, y);
                     }
                 }
                 else
@@ -111,7 +114,8 @@ namespace UnitySRPG_Mapmaker
                         Form1.matrix[x, i].direction = temp_direction;
                         Form1.matrix[x, i].putable = temp_putable;
                         Form1.matrix[x, i].partymember = temp_partymember;
-                        Form1.matrix[x, y].force = temp_force;
+                        Form1.matrix[x, i].force = temp_force;
+                        Form1.ColoredButton(x,i);
                     }
                 }
             }

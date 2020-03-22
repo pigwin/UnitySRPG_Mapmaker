@@ -29,7 +29,7 @@ namespace UnitySRPG_Mapmaker
         int x = 0;
         int y = 0;
         public static Data[,] matrix;
-        Button[,] array;
+        static Button[,] array;
         Button[] Column;
         Button[] Row;
         string global_filename = "Empty";
@@ -180,6 +180,7 @@ namespace UnitySRPG_Mapmaker
             {
                 for(int j = 0; j < l_1; j++)
                 {
+                    ColoredButton(i, j);
                     array[i,j].Text = string.Format("H{0}\nT{1}", matrix[i,j].high, matrix[i,j].texture);
                 }
             }
@@ -333,13 +334,37 @@ namespace UnitySRPG_Mapmaker
                         temp.MouseEnter += MouseOverFunc;
                         this.Controls.Add(temp);
                         array[i, j] = (temp);
+
                     }
                 }
             }
             int width = panel2.Size.Width;
             this.Width = space_x * 2 + Box_size * (x + 1) + width;
         }
+        public static void ColoredButton(int i, int j)
+        {
+            if (matrix[i, j].partymember == 1)
+            {
+                array[i, j].BackColor = Color.Blue;
+                if (matrix[i, j].putable == 1)
+                {
+                    array[i, j].BackColor = Color.Purple;
+                }
+            }
+            else if (matrix[i, j].high == 0)
+            {
+                array[i, j].BackColor = Color.Black;
+            }
+            else if (matrix[i, j].unit != 0)
+            {
+                array[i, j].BackColor = Color.Red;
+            }
+            else
+            {
+                array[i, j].BackColor = SystemColors.Window;
+            }
 
+        }
         private void button5_Click(object sender, EventArgs e)
         {
             string filename = global_filename;
