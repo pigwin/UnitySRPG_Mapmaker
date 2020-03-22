@@ -51,6 +51,7 @@ namespace UnitySRPG_Mapmaker
                 MessageBox.Show("入力してください");
                 return;
             }
+            global_filename = "NewFile*";
             x = int.Parse(textBox1.Text);
             y = int.Parse(textBox2.Text);
             if(array == null)
@@ -220,6 +221,11 @@ namespace UnitySRPG_Mapmaker
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (global_filename[global_filename.Length - 1] == '*')
+            {
+                DialogResult temp_result = MessageBox.Show("以前のデータが消えますがよろしいですか?", "注意", MessageBoxButtons.YesNo,MessageBoxIcon.Exclamation);
+                if (temp_result != DialogResult.Yes) return;
+            }
             openFileDialog1.Title = "ファイルを開く";
             openFileDialog1.InitialDirectory = Environment.CurrentDirectory;
             openFileDialog1.Filter = "csvファイル|*.csv";
@@ -229,6 +235,7 @@ namespace UnitySRPG_Mapmaker
             {
                 string filename = openFileDialog1.FileName;
                 global_filename = filename;
+                this.Text = filename;
                 StreamReader sr = new StreamReader(filename);
                 List<string> line = new List<string>();
                 for(x=0; ; x++)
@@ -239,9 +246,6 @@ namespace UnitySRPG_Mapmaker
                 y = line[0].Split(',').Length;
                 string stream = sr.ReadToEnd();
                 sr.Close();
-                /*string[] line = stream.Split('\n');
-                x = line.Length;
-                y = line[0].Split(',').Length;*/
                 if (line[0].Split(',')[y - 1] == "\r")
                 {
                     y--;
@@ -339,34 +343,40 @@ namespace UnitySRPG_Mapmaker
                 }
             }
             int width = panel2.Size.Width;
-            this.Width = space_x * 2 + Box_size * (x + 1) + width;
+            this.Width = space_x * 2 + Box_size * (y + 1) + width;
         }
         public static void ColoredButton(int i, int j)
         {
-            if (matrix[i, j].partymember == 1)
+            if (matrix[i, j].putable == 1)
             {
-                array[i, j].BackColor = Color.Blue;
-                if (matrix[i, j].putable == 1)
-                {
-                    array[i, j].BackColor = Color.Purple;
-                }
+                array[i, j].BackColor = Color.SkyBlue;                
+            }
+            else if (matrix[i, j].partymember == 1)
+            {
+                array[i, j].BackColor = Color.MediumPurple;
             }
             else if (matrix[i, j].high == 0)
             {
-                array[i, j].BackColor = Color.Black;
+                array[i, j].BackColor = Color.Tan;
             }
             else if (matrix[i, j].unit != 0)
             {
-                array[i, j].BackColor = Color.Red;
+                array[i, j].BackColor = Color.HotPink;
             }
             else
             {
                 array[i, j].BackColor = SystemColors.Window;
             }
-
         }
         private void button5_Click(object sender, EventArgs e)
         {
+            if (global_filename[global_filename.Length - 1] == '*')
+            {
+                button1_Click(sender,e);
+                return;
+            }
+            DialogResult result = MessageBox.Show("保存しますか?","",MessageBoxButtons.YesNo,MessageBoxIcon.Exclamation);
+            if (result != DialogResult.Yes) return;
             string filename = global_filename;
             StreamWriter sw = new StreamWriter(filename);
             for (int i = 0; i < matrix.GetLength(0); i++)
@@ -405,6 +415,11 @@ namespace UnitySRPG_Mapmaker
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
             
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
