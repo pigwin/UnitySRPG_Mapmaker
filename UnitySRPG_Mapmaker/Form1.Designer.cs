@@ -55,6 +55,10 @@
             this.label14 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -266,6 +270,10 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label18);
+            this.panel1.Controls.Add(this.label17);
+            this.panel1.Controls.Add(this.label16);
+            this.panel1.Controls.Add(this.label15);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label13);
             this.panel1.Controls.Add(this.label1);
@@ -280,7 +288,7 @@
             this.panel1.Controls.Add(this.label10);
             this.panel1.Location = new System.Drawing.Point(83, 172);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(77, 96);
+            this.panel1.Size = new System.Drawing.Size(77, 129);
             this.panel1.TabIndex = 27;
             // 
             // panel2
@@ -300,9 +308,45 @@
             this.panel2.Location = new System.Drawing.Point(305, 12);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(164, 275);
+            this.panel2.Size = new System.Drawing.Size(164, 312);
             this.panel2.TabIndex = 28;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(4, 93);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(32, 12);
+            this.label15.TabIndex = 27;
+            this.label15.Text = "Party";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(56, 93);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(11, 12);
+            this.label16.TabIndex = 28;
+            this.label16.Text = "0";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(6, 109);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(34, 12);
+            this.label17.TabIndex = 29;
+            this.label17.Text = "Force";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(54, 109);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(11, 12);
+            this.label18.TabIndex = 30;
+            this.label18.Text = "0";
             // 
             // Form1
             // 
@@ -350,6 +394,10 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label17;
     }
 }
 

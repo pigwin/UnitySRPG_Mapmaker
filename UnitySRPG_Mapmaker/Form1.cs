@@ -19,6 +19,7 @@ namespace UnitySRPG_Mapmaker
         public int direction;
         public int putable;
         public int partymember;
+        public int force;
     }
     public partial class Form1 : Form
     {
@@ -151,6 +152,8 @@ namespace UnitySRPG_Mapmaker
             label9.Text = string.Format("{0}", matrix[y, x].unit);
             label11.Text = string.Format("{0}",matrix[y,x].direction);
             label13.Text = string.Format("{0}",matrix[y,x].putable);
+            label16.Text = string.Format("{0}", matrix[y, x].partymember);
+            label18.Text = string.Format("{0}", matrix[y, x].force);
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -199,7 +202,12 @@ namespace UnitySRPG_Mapmaker
                 {
                     for(int j = 0; j < matrix.GetLength(1); j++)
                     {
-                        sw.Write(matrix[i,j].high + matrix[i,j].texture * 100 + matrix[i,j].unit * 100000 + matrix[i,j].direction * 10000000 + matrix[i,j].putable * 100000000 + matrix[i,j].partymember * 1000000000);
+                        int pm = 1;
+                        if(matrix[i,j].force == 1)
+                        {
+                            pm = -1;
+                        }
+                        sw.Write(pm*(matrix[i,j].high + matrix[i,j].texture * 100 + matrix[i,j].unit * 100000 + matrix[i,j].direction * 10000000 + matrix[i,j].putable * 100000000 + matrix[i,j].partymember * 1000000000));
                         if(j!=matrix.GetLength(1)-1)sw.Write(",");
                     }
                     sw.WriteLine();
@@ -221,11 +229,18 @@ namespace UnitySRPG_Mapmaker
                 string filename = openFileDialog1.FileName;
                 global_filename = filename;
                 StreamReader sr = new StreamReader(filename);
+                List<string> line = new List<string>();
+                for(x=0; ; x++)
+                {
+                    if (sr.EndOfStream) break;
+                    line.Add(sr.ReadLine());
+                }
+                y = line[0].Split(',').Length;
                 string stream = sr.ReadToEnd();
                 sr.Close();
-                string[] line = stream.Split('\n');
+                /*string[] line = stream.Split('\n');
                 x = line.Length;
-                y = line[0].Split(',').Length;
+                y = line[0].Split(',').Length;*/
                 if (line[0].Split(',')[y - 1] == "\r")
                 {
                     y--;
@@ -287,12 +302,21 @@ namespace UnitySRPG_Mapmaker
                     string[] row_stream = line[i].Split(',');
                     for (int j = 0; j < y; j++)
                     {
-                        int d = int.Parse(row_stream[j].Split('\r')[0]);
                         Button temp = new Button();
                         matrix[i, j] = new Data();
                         temp.Name = string.Format("{0},{1}", i, j);
                         temp.Size = new Size(Box_size, Box_size);
                         temp.Location = new Point(space_x + j * temp.Size.Height, space_y + i * temp.Size.Width);
+                        int d = int.Parse(row_stream[j].Split('\r')[0]);
+                        if (d < 0)
+                        {
+                            matrix[i, j].force = 1;
+                            d *= -1;
+                        }
+                        else
+                        {
+                            matrix[i, j].force = 0;
+                        }
                         temp.Text = string.Format("H{0}\nT{1}", d % 100, (d - (d % 100)) / 100);
                         matrix[i, j].high = d % 100;
                         d = d / 100;
@@ -312,6 +336,8 @@ namespace UnitySRPG_Mapmaker
                     }
                 }
             }
+            int width = panel2.Size.Width;
+            this.Width = space_x * 2 + Box_size * (x + 1) + width;
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -322,7 +348,12 @@ namespace UnitySRPG_Mapmaker
             {
                 for (int j = 0; j < matrix.GetLength(1); j++)
                 {
-                    sw.Write(matrix[i, j].high + matrix[i, j].texture * 100 + matrix[i, j].unit * 100000 + matrix[i, j].direction * 10000000 + matrix[i, j].putable * 100000000 + matrix[i,j].partymember * 1000000000);
+                    int pm = 1;
+                    if(matrix[i,j].force == 1)
+                    {
+                        pm = -1;
+                    }
+                    sw.Write(pm*(matrix[i, j].high + matrix[i, j].texture * 100 + matrix[i, j].unit * 100000 + matrix[i, j].direction * 10000000 + matrix[i, j].putable * 100000000 + matrix[i,j].partymember * 1000000000));
                     if (j != matrix.GetLength(1) - 1) sw.Write(",");
                 }
                 sw.WriteLine();

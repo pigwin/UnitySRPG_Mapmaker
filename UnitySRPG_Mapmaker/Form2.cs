@@ -25,6 +25,14 @@ namespace UnitySRPG_Mapmaker
                 numericUpDown2.Value = Form1.matrix[y, x].texture;
                 numericUpDown3.Value = Form1.matrix[y, x].unit;
                 numericUpDown4.Value = Form1.matrix[y, x].direction;
+                if(Form1.matrix[y,x].force == 1)
+                {
+                    checkBox3.Checked = true;
+                }
+                else
+                {
+                    checkBox3.Checked = false;
+                }
                 if(Form1.matrix[y,x].putable == 1)
                 {
                     checkBox1.Checked = true;
@@ -60,6 +68,11 @@ namespace UnitySRPG_Mapmaker
             {
                 temp_partymember = 1;
             }
+            int temp_force = 0;
+            if (checkBox3.Checked)
+            {
+                temp_force = 1;
+            }
             if (x != -1 && y != -1)
             {
                 Form1.matrix[y, x].high = temp_high;
@@ -68,6 +81,7 @@ namespace UnitySRPG_Mapmaker
                 Form1.matrix[y, x].direction = temp_direction;
                 Form1.matrix[y, x].putable = temp_putable;
                 Form1.matrix[y, x].partymember = temp_partymember;
+                Form1.matrix[y, x].force = temp_force;
             }
             else
             {
@@ -83,6 +97,7 @@ namespace UnitySRPG_Mapmaker
                         Form1.matrix[i, y].direction = temp_direction;
                         Form1.matrix[i, y].putable = temp_putable;
                         Form1.matrix[i, y].partymember = temp_partymember;
+                        Form1.matrix[i, y].force = temp_force;
                     }
                 }
                 else
@@ -96,6 +111,7 @@ namespace UnitySRPG_Mapmaker
                         Form1.matrix[x, i].direction = temp_direction;
                         Form1.matrix[x, i].putable = temp_putable;
                         Form1.matrix[x, i].partymember = temp_partymember;
+                        Form1.matrix[x, y].force = temp_force;
                     }
                 }
             }
@@ -131,7 +147,20 @@ namespace UnitySRPG_Mapmaker
                 {
                     checkBox2.Checked = false;
                 }
+                if (Form1.matrix[y, x].force == 1)
+                {
+                    checkBox3.Checked = true;
+                }
+                else
+                {
+                    checkBox3.Checked = false;
+                }
             }
+
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
 
         }
 
