@@ -322,7 +322,7 @@ namespace UnitySRPG_Mapmaker
             {
                 for (int j = 0; j < matrix.GetLength(1); j++)
                 {
-                    sw.Write(matrix[i, j].high + matrix[i, j].texture * 100 + matrix[i, j].unit * 100000 + matrix[i, j].direction * 10000000 + matrix[i, j].putable * 100000000);
+                    sw.Write(matrix[i, j].high + matrix[i, j].texture * 100 + matrix[i, j].unit * 100000 + matrix[i, j].direction * 10000000 + matrix[i, j].putable * 100000000 + matrix[i,j].partymember * 1000000000);
                     if (j != matrix.GetLength(1) - 1) sw.Write(",");
                 }
                 sw.WriteLine();
