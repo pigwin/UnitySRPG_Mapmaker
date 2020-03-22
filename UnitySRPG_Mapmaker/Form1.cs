@@ -23,8 +23,8 @@ namespace UnitySRPG_Mapmaker
     }
     public partial class Form1 : Form
     {
-        const int space_x = 20;
-        const int space_y = 20;
+        const int space_x = 35;
+        const int space_y = 35;
         const int Box_size = 40;
         int x = 0;
         int y = 0;
@@ -54,7 +54,29 @@ namespace UnitySRPG_Mapmaker
             global_filename = "NewFile*";
             x = int.Parse(textBox1.Text);
             y = int.Parse(textBox2.Text);
-            if(array == null)
+            int width = panel2.Size.Width;
+            if (x < 30)
+            {
+                this.Width = space_x + (Box_size + 3) * (x + 1) + width;
+            }
+            else
+            {
+                this.Width = space_x + (Box_size + 3) * 30 + width;
+            }
+            int height = panel2.Size.Height;
+            if(y < 20)
+            {
+                this.Height = space_y + (Box_size + 3) * (y + 1);
+                if(this.Height < height)
+                {
+                    this.Height = height;
+                }
+            }
+            else
+            {
+                this.Height = space_y + (Box_size + 3) * 20;
+            }
+            if (array == null)
             {
                 array = new Button[y,x];
                 Row = new Button[y];
@@ -85,7 +107,7 @@ namespace UnitySRPG_Mapmaker
             for(int i = 0; i < x; i++)
             {
                 Column[i] = new Button();
-                Column[i].Text = string.Format("C{0}", i);
+                Column[i].Text = string.Format("C\n{0}", i);
                 Column[i].Size = new Size(Box_size, space_y);
                 Column[i].Location = new Point(space_x + i * Box_size, 0);
                 Column[i].Name = Column[i].Text;
@@ -95,7 +117,7 @@ namespace UnitySRPG_Mapmaker
             for (int i = 0; i < y; i++)
             {
                 Row[i] = new Button();
-                Row[i].Text = string.Format("R{0}", i);
+                Row[i].Text = string.Format("R\n{0}", i);
                 Row[i].Size = new Size(space_x,Box_size);
                 Row[i].Location = new Point(0,space_y + i * Box_size);
                 Row[i].Name = Row[i].Text;
@@ -118,10 +140,9 @@ namespace UnitySRPG_Mapmaker
                     temp.MouseEnter += MouseOverFunc;
                     this.Controls.Add(temp);
                     array[i, j]=(temp);
+                    ColoredButton(i, j);
                 }
             }
-            int width = panel2.Size.Width;
-            this.Width = space_x*2 + Box_size * (x+1) + width;
         }
         private void ClickFunc(Object sender,EventArgs e)
         {
@@ -151,7 +172,24 @@ namespace UnitySRPG_Mapmaker
             label6.Text = string.Format("{0}",matrix[y, x].high);
             label8.Text = string.Format("{0}", matrix[y, x].texture);
             label9.Text = string.Format("{0}", matrix[y, x].unit);
-            label11.Text = string.Format("{0}",matrix[y,x].direction);
+            switch (matrix[y, x].direction)
+            {
+                case 0:
+                    label11.Text = "指定なし";
+                    break;
+                case 1:
+                    label11.Text = "上";
+                    break;
+                case 2:
+                    label11.Text = "下";
+                    break;
+                case 3:
+                    label11.Text = "左";
+                    break;
+                case 4:
+                    label11.Text = "右";
+                    break;
+            }
             label13.Text = string.Format("{0}",matrix[y,x].putable);
             label16.Text = string.Format("{0}", matrix[y, x].partymember);
             label18.Text = string.Format("{0}", matrix[y, x].force);
@@ -175,16 +213,15 @@ namespace UnitySRPG_Mapmaker
         {
             this.Text = global_filename;
             if (matrix == null) return;
-            int l_0 = matrix.GetLength(0);
+            /*int l_0 = matrix.GetLength(0);
             int l_1 = matrix.GetLength(1);
             for(int i = 0; i < l_0; i++)
             {
                 for(int j = 0; j < l_1; j++)
                 {
-                    ColoredButton(i, j);
                     array[i,j].Text = string.Format("H{0}\nT{1}", matrix[i,j].high, matrix[i,j].texture);
                 }
-            }
+            }*/
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -244,6 +281,24 @@ namespace UnitySRPG_Mapmaker
                     line.Add(sr.ReadLine());
                 }
                 y = line[0].Split(',').Length;
+                int width = panel2.Size.Width;
+                if (x < 30)
+                {
+                    this.Width = space_x * 2 + Box_size * (x + 1) + width;
+                }
+                else
+                {
+                    this.Width = space_x * 2 + Box_size * 30 + width;
+                }
+                int height = panel2.Size.Height;
+                if (y < 20)
+                {
+                    this.Height = space_y * 2 + Box_size * (y + 1) + height;
+                }
+                else
+                {
+                    this.Height = space_y * 2 + Box_size * 20 + height;
+                }
                 string stream = sr.ReadToEnd();
                 sr.Close();
                 if (line[0].Split(',')[y - 1] == "\r")
@@ -285,7 +340,7 @@ namespace UnitySRPG_Mapmaker
                 for (int i = 0; i < y; i++)
                 {
                     Column[i] = new Button();
-                    Column[i].Text = string.Format("C{0}", i);
+                    Column[i].Text = string.Format("C\n{0}", i);
                     Column[i].Size = new Size(Box_size, space_y);
                     Column[i].Location = new Point(space_x + i * Box_size, 0);
                     Column[i].Name = Column[i].Text;
@@ -295,7 +350,7 @@ namespace UnitySRPG_Mapmaker
                 for (int i = 0; i < x; i++)
                 {
                     Row[i] = new Button();
-                    Row[i].Text = string.Format("R{0}", i);
+                    Row[i].Text = string.Format("R\n{0}", i);
                     Row[i].Size = new Size(space_x, Box_size);
                     Row[i].Location = new Point(0, space_y + i * Box_size);
                     Row[i].Name = Row[i].Text;
@@ -338,22 +393,21 @@ namespace UnitySRPG_Mapmaker
                         temp.MouseEnter += MouseOverFunc;
                         this.Controls.Add(temp);
                         array[i, j] = (temp);
-
+                        ColoredButton(i, j);
                     }
                 }
             }
-            int width = panel2.Size.Width;
-            this.Width = space_x * 2 + Box_size * (y + 1) + width;
         }
         public static void ColoredButton(int i, int j)
         {
             if (matrix[i, j].putable == 1)
             {
-                array[i, j].BackColor = Color.SkyBlue;                
-            }
-            else if (matrix[i, j].partymember == 1)
-            {
-                array[i, j].BackColor = Color.MediumPurple;
+                array[i, j].BackColor = Color.SkyBlue;  
+                if(matrix[i,j].unit != 0)
+                {
+                    array[i, j].BackColor = Color.MediumPurple;
+
+                }
             }
             else if (matrix[i, j].high == 0)
             {

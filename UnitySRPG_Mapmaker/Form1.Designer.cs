@@ -231,12 +231,12 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label11.Font = new System.Drawing.Font("MS UI Gothic", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label11.Location = new System.Drawing.Point(103, 100);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(19, 19);
+            this.label11.Size = new System.Drawing.Size(57, 14);
             this.label11.TabIndex = 24;
-            this.label11.Text = "0";
+            this.label11.Text = "指定なし";
             this.label11.Click += new System.EventHandler(this.label11_Click);
             // 
             // label12
@@ -336,7 +336,6 @@
             // panel2
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.AutoSize = true;
             this.panel2.Controls.Add(this.button1);
             this.panel2.Controls.Add(this.panel1);
             this.panel2.Controls.Add(this.textBox1);
@@ -349,7 +348,7 @@
             this.panel2.Location = new System.Drawing.Point(305, 12);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(164, 313);
+            this.panel2.Size = new System.Drawing.Size(164, 465);
             this.panel2.TabIndex = 28;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
@@ -358,7 +357,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(481, 486);
             this.Controls.Add(this.panel2);
             this.Name = "Form1";
@@ -368,7 +367,6 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
