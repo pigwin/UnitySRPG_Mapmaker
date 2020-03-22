@@ -24,7 +24,7 @@ namespace UnitySRPG_Mapmaker
                 numericUpDown1.Value = Form1.matrix[y, x].high;
                 numericUpDown2.Value = Form1.matrix[y, x].texture;
                 numericUpDown3.Value = Form1.matrix[y, x].unit;
-                numericUpDown4.Value = Form1.matrix[y, x].direction;
+                //numericUpDown4.Value = Form1.matrix[y, x].direction;
                 if(Form1.matrix[y,x].force == 1)
                 {
                     checkBox3.Checked = true;
@@ -57,7 +57,27 @@ namespace UnitySRPG_Mapmaker
             int temp_high = int.Parse(numericUpDown1.Value.ToString());
             int temp_texture = int.Parse(numericUpDown2.Value.ToString());
             int temp_unit = int.Parse(numericUpDown3.Value.ToString());
-            int temp_direction = int.Parse(numericUpDown4.Value.ToString());
+            int temp_direction = 0;
+            if (radioButton1.Checked)
+            {
+                temp_direction = 1;
+            }
+            else if (radioButton2.Checked)
+            {
+                temp_direction = 2;
+            }
+            else if (radioButton3.Checked)
+            {
+                temp_direction = 3;
+            }
+            else if (radioButton4.Checked)
+            {
+                temp_direction = 4;
+            }
+            else if (radioButton5.Checked)
+            {
+                temp_direction = 0;
+            }
             int temp_putable = 0;
             if (checkBox1.Checked)
             {
@@ -134,7 +154,24 @@ namespace UnitySRPG_Mapmaker
                 numericUpDown1.Value = Form1.matrix[y, x].high;
                 numericUpDown2.Value = Form1.matrix[y, x].texture;
                 numericUpDown3.Value = Form1.matrix[y, x].unit;
-                numericUpDown4.Value = Form1.matrix[y, x].direction;
+                switch (Form1.matrix[y, x].direction)
+                {
+                    case 0:
+                        radioButton5.Checked = true;
+                        break;
+                    case 1:
+                        radioButton1.Checked = true;
+                        break;
+                    case 2:
+                        radioButton2.Checked = true;
+                        break;
+                    case 3:
+                        radioButton3.Checked = true;
+                        break;
+                    case 4:
+                        radioButton4.Checked = true;
+                        break;
+                }
                 if(Form1.matrix[y,x].putable == 1)
                 {
                     checkBox1.Checked = true;
