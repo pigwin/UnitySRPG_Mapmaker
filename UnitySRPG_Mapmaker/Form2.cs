@@ -24,7 +24,6 @@ namespace UnitySRPG_Mapmaker
                 numericUpDown1.Value = Form1.matrix[y, x].high;
                 numericUpDown2.Value = Form1.matrix[y, x].texture;
                 numericUpDown3.Value = Form1.matrix[y, x].unit;
-                //numericUpDown4.Value = Form1.matrix[y, x].direction;
                 if(Form1.matrix[y,x].force == 1)
                 {
                     checkBox3.Checked = true;
@@ -102,6 +101,7 @@ namespace UnitySRPG_Mapmaker
                 Form1.matrix[y, x].putable = temp_putable;
                 Form1.matrix[y, x].partymember = temp_partymember;
                 Form1.matrix[y, x].force = temp_force;
+                Form1.array[y, x].Text = string.Format("H{0}\nU{1}", Form1.matrix[y, x].high, Form1.matrix[y, x].unit);
                 Form1.ColoredButton(y, x);
 
             }
@@ -120,6 +120,7 @@ namespace UnitySRPG_Mapmaker
                         Form1.matrix[i, y].putable = temp_putable;
                         Form1.matrix[i, y].partymember = temp_partymember;
                         Form1.matrix[i, y].force = temp_force;
+                        Form1.array[i, y].Text = string.Format("H{0}\nU{1}", Form1.matrix[i, y].high, Form1.matrix[i, y].unit);
                         Form1.ColoredButton(i, y);
                     }
                 }
@@ -135,6 +136,7 @@ namespace UnitySRPG_Mapmaker
                         Form1.matrix[x, i].putable = temp_putable;
                         Form1.matrix[x, i].partymember = temp_partymember;
                         Form1.matrix[x, i].force = temp_force;
+                        Form1.array[x, i].Text = string.Format("H{0}\nU{1}", Form1.matrix[x, i].high, Form1.matrix[x, i].unit);
                         Form1.ColoredButton(x,i);
                     }
                 }

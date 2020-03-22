@@ -29,7 +29,7 @@ namespace UnitySRPG_Mapmaker
         int x = 0;
         int y = 0;
         public static Data[,] matrix;
-        static Button[,] array;
+        public static Button[,] array;
         Button[] Column;
         Button[] Row;
         string global_filename = "Empty";
@@ -52,8 +52,37 @@ namespace UnitySRPG_Mapmaker
                 return;
             }
             global_filename = "NewFile*";
+            if (array != null)
+            {
+                for (int i = 0; i < y; i++)
+                {
+                    for (int j = 0; j < x; j++)
+                    {
+                        array[i, j].Dispose();
+                    }
+                }
+                array.Initialize();
+            }
+            if (Row != null)
+            {
+                for (int i = 0; i < x; i++)
+                {
+                    Row[i].Dispose();
+                }
+                Row.Initialize();
+            }
+            if (Column != null)
+            {
+                for (int i = 0; i < y; i++)
+                {
+                    Column[i].Dispose();
+                }
+                Column.Initialize();
+            }
+            if(matrix!=null)matrix.Initialize();
             x = int.Parse(textBox1.Text);
             y = int.Parse(textBox2.Text);
+
             int width = panel2.Size.Width;
             if (x < 30)
             {
@@ -133,7 +162,7 @@ namespace UnitySRPG_Mapmaker
                     temp.Name = string.Format("{0},{1}",i, j);
                     temp.Size = new Size(Box_size, Box_size);
                     temp.Location = new Point(space_x + j * temp.Size.Height, space_y + i * temp.Size.Width);
-                    temp.Text = string.Format("H{0}\nT{1}",1,0);
+                    temp.Text = string.Format("H{0}\nU{1}",1,0);
                     matrix[i, j].high = 1;
                     matrix[i, j].texture = 0;
                     temp.Click += ClickFunc;
@@ -212,16 +241,6 @@ namespace UnitySRPG_Mapmaker
         private void timer1_Tick(object sender, EventArgs e)
         {
             this.Text = global_filename;
-            if (matrix == null) return;
-            /*int l_0 = matrix.GetLength(0);
-            int l_1 = matrix.GetLength(1);
-            for(int i = 0; i < l_0; i++)
-            {
-                for(int j = 0; j < l_1; j++)
-                {
-                    array[i,j].Text = string.Format("H{0}\nT{1}", matrix[i,j].high, matrix[i,j].texture);
-                }
-            }*/
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -260,7 +279,7 @@ namespace UnitySRPG_Mapmaker
         {
             if (global_filename[global_filename.Length - 1] == '*')
             {
-                DialogResult temp_result = MessageBox.Show("以前のデータが消えますがよろしいですか?", "注意", MessageBoxButtons.YesNo,MessageBoxIcon.Exclamation);
+                DialogResult temp_result = MessageBox.Show("作業中のデータが消えますがよろしいですか?", "注意", MessageBoxButtons.YesNo,MessageBoxIcon.Exclamation);
                 if (temp_result != DialogResult.Yes) return;
             }
             openFileDialog1.Title = "ファイルを開く";
@@ -270,6 +289,34 @@ namespace UnitySRPG_Mapmaker
             DialogResult result = openFileDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
+                if (array != null)
+                {
+                    for (int i = 0; i < y; i++)
+                    {
+                        for (int j = 0; j < x; j++)
+                        {
+                            array[i, j].Dispose();
+                        }
+                    }
+                    array.Initialize();
+                }
+                if(Row != null)
+                {
+                    for(int i = 0; i < x; i++)
+                    {
+                        Row[i].Dispose();
+                    }
+                    Row.Initialize();
+                }
+                if (Column != null)
+                {
+                    for(int i = 0; i < y; i++)
+                    {
+                        Column[i].Dispose();
+                    }
+                    Column.Initialize();
+                }
+                if(matrix!=null)matrix.Initialize();
                 string filename = openFileDialog1.FileName;
                 global_filename = filename;
                 this.Text = filename;
@@ -284,20 +331,24 @@ namespace UnitySRPG_Mapmaker
                 int width = panel2.Size.Width;
                 if (x < 30)
                 {
-                    this.Width = space_x * 2 + Box_size * (x + 1) + width;
+                    this.Width = space_x + (Box_size+3) * (y + 1) + width;
                 }
                 else
                 {
-                    this.Width = space_x * 2 + Box_size * 30 + width;
+                    this.Width = space_x + (Box_size+3) * 30 + width;
                 }
                 int height = panel2.Size.Height;
                 if (y < 20)
                 {
-                    this.Height = space_y * 2 + Box_size * (y + 1) + height;
+                    this.Height = space_y + (Box_size+3) * (x + 1);
+                    if(this.Height < height)
+                    {
+                        this.Height = height;
+                    }
                 }
                 else
                 {
-                    this.Height = space_y * 2 + Box_size * 20 + height;
+                    this.Height = space_y + (Box_size+3) * 20;
                 }
                 string stream = sr.ReadToEnd();
                 sr.Close();
@@ -377,7 +428,6 @@ namespace UnitySRPG_Mapmaker
                         {
                             matrix[i, j].force = 0;
                         }
-                        temp.Text = string.Format("H{0}\nT{1}", d % 100, (d - (d % 100)) / 100);
                         matrix[i, j].high = d % 100;
                         d = d / 100;
                         matrix[i, j].texture = d % 1000;
@@ -391,6 +441,7 @@ namespace UnitySRPG_Mapmaker
                         matrix[i, j].partymember = d % 10;
                         temp.Click += ClickFunc;
                         temp.MouseEnter += MouseOverFunc;
+                        temp.Text = string.Format("H{0}\nU{1}", matrix[i, j].high, matrix[i, j].unit);
                         this.Controls.Add(temp);
                         array[i, j] = (temp);
                         ColoredButton(i, j);
@@ -473,6 +524,12 @@ namespace UnitySRPG_Mapmaker
 
         private void button3_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void timer1_Tick_1(object sender, EventArgs e)
+        {
+            this.Text = global_filename;
 
         }
     }
