@@ -19,6 +19,29 @@ namespace UnitySRPG_Mapmaker
             x = int.Parse(point[1]);
             y = int.Parse(point[0]);
             InitializeComponent();
+            if (x != -1 && y != -1)
+            {
+                numericUpDown1.Value = Form1.matrix[y, x].high;
+                numericUpDown2.Value = Form1.matrix[y, x].texture;
+                numericUpDown3.Value = Form1.matrix[y, x].unit;
+                numericUpDown4.Value = Form1.matrix[y, x].direction;
+                if(Form1.matrix[y,x].putable == 1)
+                {
+                    checkBox1.Checked = true;
+                }
+                else
+                {
+                    checkBox1.Checked = false;
+                }
+                if(Form1.matrix[y,x].partymember == 1)
+                {
+                    checkBox2.Checked = true;
+                }
+                else
+                {
+                    checkBox2.Checked = false;
+                }
+            }
             
         }
         private void button1_Click(object sender, EventArgs e)
@@ -27,7 +50,16 @@ namespace UnitySRPG_Mapmaker
             int temp_texture = int.Parse(numericUpDown2.Value.ToString());
             int temp_unit = int.Parse(numericUpDown3.Value.ToString());
             int temp_direction = int.Parse(numericUpDown4.Value.ToString());
-            int temp_putable = int.Parse(numericUpDown5.Value.ToString());
+            int temp_putable = 0;
+            if (checkBox1.Checked)
+            {
+                temp_putable = 1;
+            }
+            int temp_partymember = 0;
+            if (checkBox2.Checked)
+            {
+                temp_partymember = 1;
+            }
             if (x != -1 && y != -1)
             {
                 Form1.matrix[y, x].high = temp_high;
@@ -35,6 +67,7 @@ namespace UnitySRPG_Mapmaker
                 Form1.matrix[y, x].unit = temp_unit;
                 Form1.matrix[y, x].direction = temp_direction;
                 Form1.matrix[y, x].putable = temp_putable;
+                Form1.matrix[y, x].partymember = temp_partymember;
             }
             else
             {
@@ -49,6 +82,7 @@ namespace UnitySRPG_Mapmaker
                         Form1.matrix[i, y].unit = temp_unit;
                         Form1.matrix[i, y].direction = temp_direction;
                         Form1.matrix[i, y].putable = temp_putable;
+                        Form1.matrix[i, y].partymember = temp_partymember;
                     }
                 }
                 else
@@ -61,6 +95,7 @@ namespace UnitySRPG_Mapmaker
                         Form1.matrix[x, i].unit = temp_unit;
                         Form1.matrix[x, i].direction = temp_direction;
                         Form1.matrix[x, i].putable = temp_putable;
+                        Form1.matrix[x, i].partymember = temp_partymember;
                     }
                 }
             }
@@ -80,7 +115,22 @@ namespace UnitySRPG_Mapmaker
                 numericUpDown2.Value = Form1.matrix[y, x].texture;
                 numericUpDown3.Value = Form1.matrix[y, x].unit;
                 numericUpDown4.Value = Form1.matrix[y, x].direction;
-                numericUpDown5.Value = Form1.matrix[y, x].putable;
+                if(Form1.matrix[y,x].putable == 1)
+                {
+                    checkBox1.Checked = true;
+                }
+                else
+                {
+                    checkBox1.Checked = false;
+                }
+                if(Form1.matrix[y,x].partymember == 1)
+                {
+                    checkBox2.Checked = true;
+                }
+                else
+                {
+                    checkBox2.Checked = false;
+                }
             }
 
         }

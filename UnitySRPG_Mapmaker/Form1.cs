@@ -18,6 +18,7 @@ namespace UnitySRPG_Mapmaker
         public int unit;
         public int direction;
         public int putable;
+        public int partymember;
     }
     public partial class Form1 : Form
     {
@@ -40,7 +41,7 @@ namespace UnitySRPG_Mapmaker
         {
 
         }
-
+        //Newを押したときの処理
         private void button4_Click(object sender, EventArgs e)
         {
             int t = 0;
@@ -53,9 +54,9 @@ namespace UnitySRPG_Mapmaker
             y = int.Parse(textBox2.Text);
             if(array == null)
             {
-                array = new Button[x,y];
-                Row = new Button[x];
-                Column = new Button[y];
+                array = new Button[y,x];
+                Row = new Button[y];
+                Column = new Button[x];
             }
             else
             {
@@ -74,12 +75,12 @@ namespace UnitySRPG_Mapmaker
                         array[i, j].Dispose();
                     }
                 }
-                array = new Button[x,y];
-                Row = new Button[x];
-                Column = new Button[y];
+                array = new Button[y,x];
+                Row = new Button[y];
+                Column = new Button[x];
             }
-            matrix = new Data[x,y];
-            for(int i = 0; i < y; i++)
+            matrix = new Data[y,x];
+            for(int i = 0; i < x; i++)
             {
                 Column[i] = new Button();
                 Column[i].Text = string.Format("C{0}", i);
@@ -89,7 +90,7 @@ namespace UnitySRPG_Mapmaker
                 Column[i].Click += ClickFunc_Column;
                 this.Controls.Add(Column[i]);
             }
-            for (int i = 0; i < x; i++)
+            for (int i = 0; i < y; i++)
             {
                 Row[i] = new Button();
                 Row[i].Text = string.Format("R{0}", i);
@@ -99,9 +100,9 @@ namespace UnitySRPG_Mapmaker
                 Row[i].Click += ClickFunc_Row;
                 this.Controls.Add(Row[i]);
             }
-            for (int i = 0;i < x; i++)
+            for (int i = 0;i < y; i++)
             {
-                for (int j = 0; j < y; j++)
+                for (int j = 0; j < x; j++)
                 {
                     Button temp = new Button();
                     matrix[i, j] = new Data();
@@ -117,6 +118,8 @@ namespace UnitySRPG_Mapmaker
                     array[i, j]=(temp);
                 }
             }
+            int width = panel2.Size.Width;
+            this.Width = space_x*2 + Box_size * (x+1) + width;
         }
         private void ClickFunc(Object sender,EventArgs e)
         {
@@ -174,7 +177,7 @@ namespace UnitySRPG_Mapmaker
             {
                 for(int j = 0; j < l_1; j++)
                 {
-                    array[i, j].Text = string.Format("H{0}\nT{1}", matrix[i, j].high, matrix[i, j].texture);
+                    array[i,j].Text = string.Format("H{0}\nT{1}", matrix[i,j].high, matrix[i,j].texture);
                 }
             }
         }
@@ -196,7 +199,7 @@ namespace UnitySRPG_Mapmaker
                 {
                     for(int j = 0; j < matrix.GetLength(1); j++)
                     {
-                        sw.Write(matrix[i,j].high + matrix[i,j].texture * 100);
+                        sw.Write(matrix[i,j].high + matrix[i,j].texture * 100 + matrix[i,j].unit * 100000 + matrix[i,j].direction * 10000000 + matrix[i,j].putable * 100000000 + matrix[i,j].partymember * 1000000000);
                         if(j!=matrix.GetLength(1)-1)sw.Write(",");
                     }
                     sw.WriteLine();
@@ -291,8 +294,17 @@ namespace UnitySRPG_Mapmaker
                         temp.Size = new Size(Box_size, Box_size);
                         temp.Location = new Point(space_x + j * temp.Size.Height, space_y + i * temp.Size.Width);
                         temp.Text = string.Format("H{0}\nT{1}", d % 100, (d - (d % 100)) / 100);
-                        matrix[i, j].high = d%100;
-                        matrix[i, j].texture = (d - (d % 100)) / 100;
+                        matrix[i, j].high = d % 100;
+                        d = d / 100;
+                        matrix[i, j].texture = d % 1000;
+                        d /= 1000;
+                        matrix[i, j].unit = d % 100;
+                        d /= 100;
+                        matrix[i, j].direction = d % 10;
+                        d /= 10;
+                        matrix[i, j].putable = d % 10;
+                        d /= 10;
+                        matrix[i, j].partymember = d % 10;
                         temp.Click += ClickFunc;
                         temp.MouseEnter += MouseOverFunc;
                         this.Controls.Add(temp);
@@ -310,7 +322,7 @@ namespace UnitySRPG_Mapmaker
             {
                 for (int j = 0; j < matrix.GetLength(1); j++)
                 {
-                    sw.Write(matrix[i, j].high + matrix[i, j].texture * 100);
+                    sw.Write(matrix[i, j].high + matrix[i, j].texture * 100 + matrix[i, j].unit * 100000 + matrix[i, j].direction * 10000000 + matrix[i, j].putable * 100000000);
                     if (j != matrix.GetLength(1) - 1) sw.Write(",");
                 }
                 sw.WriteLine();
@@ -332,6 +344,11 @@ namespace UnitySRPG_Mapmaker
         private void label13_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+            
         }
     }
 }
