@@ -76,19 +76,20 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(43, 38);
+            this.textBox2.Location = new System.Drawing.Point(52, 8);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(100, 19);
             this.textBox2.TabIndex = 9;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(2, 41);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(17, 12);
+            this.label2.Size = new System.Drawing.Size(21, 12);
             this.label2.TabIndex = 8;
-            this.label2.Text = "列";
+            this.label2.Text = "ヨコ";
             // 
             // button2
             // 
@@ -103,11 +104,11 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(1, 8);
+            this.label3.Location = new System.Drawing.Point(3, 11);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(17, 12);
+            this.label3.Size = new System.Drawing.Size(22, 12);
             this.label3.TabIndex = 7;
-            this.label3.Text = "行";
+            this.label3.Text = "タテ";
             // 
             // button5
             // 
@@ -121,7 +122,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(43, 5);
+            this.textBox1.Location = new System.Drawing.Point(52, 38);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 19);
             this.textBox1.TabIndex = 6;
@@ -328,13 +329,13 @@
             // panel2
             // 
             this.panel2.Controls.Add(this.button1);
+            this.panel2.Controls.Add(this.textBox2);
             this.panel2.Controls.Add(this.panel1);
             this.panel2.Controls.Add(this.textBox1);
             this.panel2.Controls.Add(this.button5);
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.button2);
             this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.textBox2);
             this.panel2.Controls.Add(this.button4);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel2.Location = new System.Drawing.Point(317, 0);

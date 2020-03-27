@@ -172,10 +172,10 @@ namespace UnitySRPG_Mapmaker
                     }
                     array[i, j] = new Button();
                     matrix[i, j] = new Data();
-                    array[i, j].Anchor = AnchorStyles.Top | AnchorStyles.Left;
                     array[i,j].Name = string.Format("{0},{1}",i, j);
                     array[i,j].Size = new Size(Box_size, Box_size);
                     array[i, j].Location = new Point(0, 0);
+                    array[i, j].Anchor = AnchorStyles.Top | AnchorStyles.Left;
                     array[i, j].Left = space_x + j * array[i, j].Size.Height;
                     array[i, j].Top = space_y + i * array[i, j].Size.Width;
                     array[i,j].Text = string.Format("H{0}\nU{1}",1,0);
@@ -197,13 +197,13 @@ namespace UnitySRPG_Mapmaker
             {
                 case MouseButtons.Right:
                     string[] point = (sender as Button).Name.Split(',');
-                    temp_x = int.Parse(point[0]);
-                    temp_y = int.Parse(point[1]);
+                    temp_y = int.Parse(point[0]);
+                    temp_x = int.Parse(point[1]);
                     if (start_x == -1 && start_y == -1)
                     {
                         start_x = temp_x;
                         start_y = temp_y;
-                        array[start_x, start_y].BackColor = Color.Yellow;
+                        array[start_y,start_x].BackColor = Color.Yellow;
                     }
                     else if(start_x != temp_x || start_y != temp_y)
                     {
@@ -225,7 +225,7 @@ namespace UnitySRPG_Mapmaker
                         {
                             for(int j = start_y; j <= finish_y; j++)
                             {
-                                array[i, j].BackColor = Color.Yellow;
+                                array[j,i].BackColor = Color.Yellow;
                             }
                         }
                         Form2 f = new Form2("hani");
@@ -245,6 +245,13 @@ namespace UnitySRPG_Mapmaker
         }
         private void ClickFunc_All(Object sender, EventArgs e)
         {
+            for (int i = 0; i < x; i++)
+            {
+                for (int j = 0; j < y; j++)
+                {
+                    array[j,i].BackColor = Color.Yellow;
+                }
+            }
             Form2 f = new Form2("-1,-1");
             f.Show();
         }
@@ -252,14 +259,24 @@ namespace UnitySRPG_Mapmaker
         {
             string a = (sender as Button).Name;
             string[] b = a.Split('R');
-            Form2 f = new Form2("-1," + b[1]);
+            int temp = int.Parse(b[1]);
+            for (int i = 0; i < x; i++)
+            {
+                array[temp, i].BackColor = Color.Yellow;
+            }
+            Form2 f = new Form2(b[1]+",-1");
             f.Show();
         }
         private void ClickFunc_Column(Object sender, EventArgs e)
         {
             string a = (sender as Button).Name;
             string[] b = a.Split('C');
-            Form2 f = new Form2(b[1] + ",-1");
+            int temp = int.Parse(b[1]);
+            for (int i = 0; i < y; i++)
+            {
+                array[i, temp].BackColor = Color.Yellow;
+            }
+            Form2 f = new Form2("-1,"+b[1]);
             f.Show();
         }
         private void MouseOverFunc(Object sender,EventArgs e)
@@ -327,9 +344,9 @@ namespace UnitySRPG_Mapmaker
                 global_filename = filename;
                 this.Text = filename;
                 StreamWriter sw = new StreamWriter(filename);
-                for(int i = 0; i < matrix.GetLength(0); i++)
+                for(int i = 0; i < y; i++)
                 {
-                    for(int j = 0; j < matrix.GetLength(1); j++)
+                    for(int j = 0; j < x; j++)
                     {
                         int pm = 1;
                         if(matrix[i,j].force == 1)
@@ -362,9 +379,9 @@ namespace UnitySRPG_Mapmaker
             {
                 if (array != null)
                 {
-                    for (int i = 0; i < x; i++)
+                    for (int i = 0; i < y; i++)
                     {
-                        for (int j = 0; j < y; j++)
+                        for (int j = 0; j < x; j++)
                         {
                             array[i,j].Dispose();
                         }
@@ -373,7 +390,7 @@ namespace UnitySRPG_Mapmaker
                 }
                 if(Row != null)
                 {
-                    for(int i = 0; i < x; i++)
+                    for(int i = 0; i < y; i++)
                     {
                         Row[i].Dispose();
                     }
@@ -381,7 +398,7 @@ namespace UnitySRPG_Mapmaker
                 }
                 if (Column != null)
                 {
-                    for(int i = 0; i < y; i++)
+                    for(int i = 0; i < x; i++)
                     {
                         Column[i].Dispose();
                     }
@@ -394,16 +411,47 @@ namespace UnitySRPG_Mapmaker
                 this.Text = filename;
                 StreamReader sr = new StreamReader(filename);
                 List<string> line = new List<string>();
-                for(x=0; ; x++)
+                if (array != null)
+                {
+                    for (int i = 0; i < y; i++)
+                    {
+                        Row[i].Dispose();
+                    }
+                    for (int i = 0; i < x; i++)
+                    {
+                        Column[i].Dispose();
+                    }
+                    for (int i = 0; i < y; i++)
+                    {
+                        for (int j = 0; j < x; j++)
+                        {
+                            array[i, j].Dispose();
+                        }
+                    }
+                }
+                for (y=0; ; y++)
                 {
                     if (sr.EndOfStream) break;
                     line.Add(sr.ReadLine());
                 }
-                y = line[0].Split(',').Length;
+                x = line[0].Split(',').Length;
+                if (line[0].Split(',')[x - 1] == "\r")
+                {
+                    x--;
+                }
+                if (line[y - 1].Length < 1)
+                {
+                    y--;
+                }
+                textBox2.Text = string.Format("{0}", y);
+                textBox1.Text = string.Format("{0}", x);
+                array = new Button[y, x];
+                Row = new Button[y];
+                Column = new Button[x];
                 int width = panel2.Size.Width;
                 if (x < 30)
                 {
-                    this.Width = space_x + (Box_size+3) * (y + 1) + width;
+                    this.Width = space_x + (Box_size+3) * (x + 1) + width;
                 }
                 else
                 {
@@ -412,7 +460,7 @@ namespace UnitySRPG_Mapmaker
                 int height = panel2.Size.Height;
                 if (y < 20)
                 {
-                    this.Height = space_y + (Box_size+3) * (x + 1);
+                    this.Height = space_y + (Box_size+3) * (y + 1);
                     if(this.Height < height)
                     {
                         this.Height = height;
@@ -424,42 +472,7 @@ namespace UnitySRPG_Mapmaker
                 }
                 string stream = sr.ReadToEnd();
                 sr.Close();
-                if (line[0].Split(',')[y - 1] == "\r")
-                {
-                    y--;
-                }
-                if (line[x - 1].Length < 1)
-                {
-                    x--;
-                }
-                if (array == null)
-                {
-                    array = new Button[x,y];
-                    Row = new Button[x];
-                    Column = new Button[y];
-                }
-                else
-                {
-                    for (int i = 0; i < Row.Length; i++)
-                    {
-                        Row[i].Dispose();
-                    }
-                    for (int i = 0; i < Column.Length; i++)
-                    {
-                        Column[i].Dispose();
-                    }
-                    for (int i = 0; i < array.GetLength(0); i++)
-                    {
-                        for (int j = 0; j < array.GetLength(1); j++)
-                        {
-                            array[i, j].Dispose();
-                        }
-                    }
-                    array = new Button[x,y];
-                    Row = new Button[x];
-                    Column = new Button[y];
-                }
-                matrix = new Data[x,y];
+                matrix = new Data[y,x];
                 if (all == null)
                 {
                     all = new Button();
@@ -467,65 +480,65 @@ namespace UnitySRPG_Mapmaker
                     all.Size = new Size(space_x, space_y);
                     all.Click += ClickFunc_All;
                 }
-                for (int i = 0; i < y; i++)
+                this.AutoScroll = false;
+                for (int j = 0; j < y; j++)
                 {
-                    Column[i] = new Button();
-                    Column[i].Text = string.Format("C\n{0}", i);
-                    Column[i].Size = new Size(Box_size, space_y);
-                    Column[i].Location = new Point(space_x + i * Box_size, 0);
-                    Column[i].Name = Column[i].Text;
-                    Column[i].Click += ClickFunc_Column;
-                    this.Controls.Add(Column[i]);
-                }
-                for (int i = 0; i < x; i++)
-                {
-                    Row[i] = new Button();
-                    Row[i].Text = string.Format("R\n{0}", i);
-                    Row[i].Size = new Size(space_x, Box_size);
-                    Row[i].Location = new Point(0, space_y + i * Box_size);
-                    Row[i].Name = Row[i].Text;
-                    Row[i].Click += ClickFunc_Row;
-                    this.Controls.Add(Row[i]);
-                }
-                for (int i = 0; i < x; i++)
-                {
-                    string[] row_stream = line[i].Split(',');
-                    for (int j = 0; j < y; j++)
+                    Row[j] = new Button();
+                    Row[j].Text = string.Format("R\n{0}", j);
+                    Row[j].Size = new Size(space_x, Box_size);
+                    Row[j].Location = new Point(0, space_y + j * Box_size);
+                    Row[j].Name = Row[j].Text;
+                    Row[j].Click += ClickFunc_Row;
+                    this.Controls.Add(Row[j]);
+                    string[] row_stream = line[j].Split(',');
+                    for (int i = 0; i < x; i++)
                     {
-                        Button temp = new Button();
-                        matrix[i, j] = new Data();
-                        temp.Name = string.Format("{0},{1}", i, j);
-                        temp.Size = new Size(Box_size, Box_size);
-                        temp.Location = new Point(space_x + j * temp.Size.Height, space_y + i * temp.Size.Width);
-                        int d = int.Parse(row_stream[j].Split('\r')[0]);
+                        if (j == 0)
+                        {
+                            Column[i] = new Button();
+                            Column[i].Text = string.Format("C\n{0}", i);
+                            Column[i].Size = new Size(Box_size, space_y);
+                            Column[i].Location = new Point(space_x + i * Box_size, 0);
+                            Column[i].Name = Column[i].Text;
+                            Column[i].Click += ClickFunc_Column;
+                            this.Controls.Add(Column[i]);
+                        }
+                        array[j,i] = new Button();
+                        matrix[j, i] = new Data();
+                        array[j, i].Name = string.Format("{0},{1}", j, i);
+                        array[j, i].Size = new Size(Box_size, Box_size);
+                        array[j, i].Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                        array[j, i].Left = space_x + i * array[j, i].Size.Height;
+                        array[j, i].Top = space_y + j * array[j, i].Size.Width;
+                        int d = int.Parse(row_stream[i].Split('\r')[0]);
                         if (d < 0)
                         {
-                            matrix[i, j].force = 1;
+                            matrix[j, i].force = 1;
                             d *= -1;
                         }
                         else
                         {
-                            matrix[i, j].force = 0;
+                            matrix[j, i].force = 0;
                         }
-                        matrix[i, j].high = d % 100;
+                        matrix[j, i].high = d % 100;
                         d = d / 100;
-                        matrix[i, j].texture = d % 1000;
+                        matrix[j, i].texture = d % 1000;
                         d /= 1000;
-                        matrix[i, j].unit = d % 100;
+                        matrix[j, i].unit = d % 100;
                         d /= 100;
-                        matrix[i, j].direction = d % 10;
+                        matrix[j, i].direction = d % 10;
                         d /= 10;
-                        matrix[i, j].putable = d % 10;
+                        matrix[j, i].putable = d % 10;
                         d /= 10;
-                        matrix[i, j].partymember = d % 10;
-                        temp.Click += ClickFunc;
-                        temp.MouseEnter += MouseOverFunc;
-                        temp.Text = string.Format("H{0}\nU{1}", matrix[i, j].high, matrix[i, j].unit);
-                        this.Controls.Add(temp);
-                        array[i, j] = (temp);
-                        ColoredButton(i, j);
+                        matrix[j, i].partymember = d % 10;
+                        array[j, i].Click += ClickFunc;
+                        array[j, i].MouseEnter += MouseOverFunc;
+                        array[j, i].Text = string.Format("H{0}\nU{1}", matrix[j, i].high, matrix[j, i].unit);
+                        this.Controls.Add(array[j, i]);
+                        ColoredButton(j, i);
                     }
                 }
+                this.AutoScroll = true;
             }
         }
         public static void ColoredButton(int i, int j)
@@ -564,9 +577,9 @@ namespace UnitySRPG_Mapmaker
             string filename = global_filename;
             this.Text = filename;
             StreamWriter sw = new StreamWriter(filename);
-            for (int i = 0; i < matrix.GetLength(0); i++)
+            for (int i = 0; i < y; i++)
             {
-                for (int j = 0; j < matrix.GetLength(1); j++)
+                for (int j = 0; j < x; j++)
                 {
                     int pm = 1;
                     if(matrix[i,j].force == 1)
@@ -614,6 +627,11 @@ namespace UnitySRPG_Mapmaker
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
         }

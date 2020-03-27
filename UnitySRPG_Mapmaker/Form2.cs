@@ -38,8 +38,8 @@ namespace UnitySRPG_Mapmaker
             {
                 start_x = 0;
                 start_y = 0;
-                finish_x = Form1.y - 1;
-                finish_y = Form1.x - 1;
+                finish_x = Form1.x - 1;
+                finish_y = Form1.y - 1;
                 Hani = true;
                 this.Text = string.Format("({0},{1})->({2},{3})", start_y, start_x, finish_y, finish_x);
                 return;
@@ -78,6 +78,21 @@ namespace UnitySRPG_Mapmaker
                 }
             }
             this.Text = string.Format("({0},{1})", y, x);
+            start_x = x;
+            start_y = y;
+            finish_x = x;
+            finish_y = y;
+            if(x == -1)
+            {
+                start_x = 0;
+                finish_x = Form1.x-1;
+            }
+            if(y == -1)
+            {
+                start_y = 0;
+                finish_y = Form1.y - 1;
+            }
+            Hani = true;
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -127,68 +142,16 @@ namespace UnitySRPG_Mapmaker
                 {
                     for(int j = start_y; j <= finish_y; j++)
                     {
-                        Form1.matrix[i, j].high = temp_high;
-                        Form1.matrix[i, j].texture = temp_texture;
-                        Form1.matrix[i, j].unit = temp_unit;
-                        Form1.matrix[i, j].direction = temp_direction;
-                        Form1.matrix[i, j].putable = temp_putable;
-                        Form1.matrix[i, j].partymember = temp_partymember;
-                        Form1.matrix[i, j].force = temp_force;
+                        Form1.matrix[j,i].high = temp_high;
+                        Form1.matrix[j, i].texture = temp_texture;
+                        Form1.matrix[j, i].unit = temp_unit;
+                        Form1.matrix[j, i].direction = temp_direction;
+                        Form1.matrix[j, i].putable = temp_putable;
+                        Form1.matrix[j, i].partymember = temp_partymember;
+                        Form1.matrix[j, i].force = temp_force;
 
-                        Form1.array[i, j].Text = string.Format("H{0}\nU{1}", Form1.matrix[i, j].high, Form1.matrix[i, j].unit);
-                        Form1.ColoredButton(i, j);
-                    }
-                }
-                button_check = 1;
-                this.Close();
-                return;
-            }
-            if (x != -1 && y != -1)
-            {
-                Form1.matrix[y, x].high = temp_high;
-                Form1.matrix[y, x].texture = temp_texture;
-                Form1.matrix[y, x].unit = temp_unit;
-                Form1.matrix[y, x].direction = temp_direction;
-                Form1.matrix[y, x].putable = temp_putable;
-                Form1.matrix[y, x].partymember = temp_partymember;
-                Form1.matrix[y, x].force = temp_force;
-                Form1.array[y, x].Text = string.Format("H{0}\nU{1}", Form1.matrix[y, x].high, Form1.matrix[y, x].unit);
-                Form1.ColoredButton(y, x);
-
-            }
-            else
-            {
-                int length = 0;
-                if (x == -1)
-                {
-                    length = Form1.matrix.GetLength(0);
-                    for(int i = 0; i < length; i++)
-                    {
-                        Form1.matrix[i, y].high = temp_high;
-                        Form1.matrix[i, y].texture = temp_texture;
-                        Form1.matrix[i, y].unit = temp_unit;
-                        Form1.matrix[i, y].direction = temp_direction;
-                        Form1.matrix[i, y].putable = temp_putable;
-                        Form1.matrix[i, y].partymember = temp_partymember;
-                        Form1.matrix[i, y].force = temp_force;
-                        Form1.array[i, y].Text = string.Format("H{0}\nU{1}", Form1.matrix[i, y].high, Form1.matrix[i, y].unit);
-                        Form1.ColoredButton(i, y);
-                    }
-                }
-                else
-                {
-                    length = Form1.matrix.GetLength(1);
-                    for (int i = 0; i < length; i++)
-                    {
-                        Form1.matrix[x, i].high = temp_high;
-                        Form1.matrix[x, i].texture = temp_texture;
-                        Form1.matrix[x, i].unit = temp_unit;
-                        Form1.matrix[x, i].direction = temp_direction;
-                        Form1.matrix[x, i].putable = temp_putable;
-                        Form1.matrix[x, i].partymember = temp_partymember;
-                        Form1.matrix[x, i].force = temp_force;
-                        Form1.array[x, i].Text = string.Format("H{0}\nU{1}", Form1.matrix[x, i].high, Form1.matrix[x, i].unit);
-                        Form1.ColoredButton(x,i);
+                        Form1.array[j, i].Text = string.Format("H{0}\nU{1}", Form1.matrix[j, i].high, Form1.matrix[j, i].unit);
+                        Form1.ColoredButton(j,i);
                     }
                 }
             }
@@ -258,11 +221,11 @@ namespace UnitySRPG_Mapmaker
         {
             if (button_check == 0)
             {
-                for(int i = start_x; i <= finish_x; i++)
+                for(int i = start_x; i <= finish_y; i++)
                 {
-                    for(int j = start_y; j <= finish_y; j++)
+                    for(int j = start_y; j <= finish_x; j++)
                     {
-                        Form1.ColoredButton(i, j);
+                        Form1.ColoredButton(j,i);
                     }
                 }
             }
