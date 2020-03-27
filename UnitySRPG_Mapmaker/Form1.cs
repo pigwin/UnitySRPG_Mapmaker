@@ -31,10 +31,11 @@ namespace UnitySRPG_Mapmaker
         public static int finish_x = -1;
         public static int finish_y = -1;
 
-        int x = 0;
-        int y = 0;
+        public static int x = 0;
+        public static int y = 0;
         public static Data[,] matrix;
         public static Button[,] array;
+        Button all = null;
         Button[] Column;
         Button[] Row;
         string global_filename = "Empty";
@@ -57,6 +58,7 @@ namespace UnitySRPG_Mapmaker
                 return;
             }
             global_filename = "NewFile*";
+            this.Text = global_filename;
             if (array != null)
             {
                 for (int i = 0; i < y; i++)
@@ -70,7 +72,7 @@ namespace UnitySRPG_Mapmaker
             }
             if (Row != null)
             {
-                for (int i = 0; i < x; i++)
+                for (int i = 0; i < y; i++)
                 {
                     Row[i].Dispose();
                 }
@@ -78,7 +80,7 @@ namespace UnitySRPG_Mapmaker
             }
             if (Column != null)
             {
-                for (int i = 0; i < y; i++)
+                for (int i = 0; i < x; i++)
                 {
                     Column[i].Dispose();
                 }
@@ -137,47 +139,56 @@ namespace UnitySRPG_Mapmaker
                 Row = new Button[y];
                 Column = new Button[x];
             }
+            this.AutoScroll = false;
             matrix = new Data[y,x];
-            for(int i = 0; i < x; i++)
+            if (all == null)
             {
-                Column[i] = new Button();
-                Column[i].Text = string.Format("C\n{0}", i);
-                Column[i].Size = new Size(Box_size, space_y);
-                Column[i].Location = new Point(space_x + i * Box_size, 0);
-                Column[i].Name = Column[i].Text;
-                Column[i].Click += ClickFunc_Column;
-                this.Controls.Add(Column[i]);
+                all = new Button();
+                all.Location = new Point(0, 0);
+                all.Size = new Size(space_x, space_y);
+                all.Click += ClickFunc_All;
             }
-            for (int i = 0; i < y; i++)
+            this.Controls.Add(all);
+            for (int i = 0;i < y; i++)
             {
                 Row[i] = new Button();
                 Row[i].Text = string.Format("R\n{0}", i);
-                Row[i].Size = new Size(space_x,Box_size);
-                Row[i].Location = new Point(0,space_y + i * Box_size);
+                Row[i].Location = new Point(0, space_y + i * Box_size);
+                Row[i].Size = new Size(space_x, Box_size);
                 Row[i].Name = Row[i].Text;
                 Row[i].Click += ClickFunc_Row;
                 this.Controls.Add(Row[i]);
-            }
-            for (int i = 0;i < y; i++)
-            {
                 for (int j = 0; j < x; j++)
                 {
-                    Button temp = new Button();
+                    if (i == 0)
+                    {
+                        Column[j] = new Button();
+                        Column[j].Text = string.Format("C\n{0}", j);
+                        Column[j].Size = new Size(Box_size, space_y);
+                        Column[j].Location = new Point(space_x + j * Box_size, 0);
+                        Column[j].Name = Column[j].Text;
+                        Column[j].Click += ClickFunc_Column;
+                        this.Controls.Add(Column[j]);
+                    }
+                    array[i, j] = new Button();
                     matrix[i, j] = new Data();
-                    temp.Name = string.Format("{0},{1}",i, j);
-                    temp.Size = new Size(Box_size, Box_size);
-                    temp.Location = new Point(space_x + j * temp.Size.Height, space_y + i * temp.Size.Width);
-                    temp.Text = string.Format("H{0}\nU{1}",1,0);
+                    array[i, j].Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                    array[i,j].Name = string.Format("{0},{1}",i, j);
+                    array[i,j].Size = new Size(Box_size, Box_size);
+                    array[i, j].Location = new Point(0, 0);
+                    array[i, j].Left = space_x + j * array[i, j].Size.Height;
+                    array[i, j].Top = space_y + i * array[i, j].Size.Width;
+                    array[i,j].Text = string.Format("H{0}\nU{1}",1,0);
                     matrix[i, j].high = 1;
                     matrix[i, j].texture = 0;
-                    temp.Click += ClickFunc;
-                    temp.MouseDown += MouseDown;
-                    temp.MouseEnter += MouseOverFunc;
-                    this.Controls.Add(temp);
-                    array[i, j]=(temp);
+                    array[i,j].Click += ClickFunc;
+                    array[i,j].MouseDown += MouseDown;
+                    array[i,j].MouseEnter += MouseOverFunc;
+                    this.Controls.Add(array[i,j]);
                     ColoredButton(i, j);
                 }
             }
+            this.AutoScroll = true;
         }
         private void MouseDown(Object sender, MouseEventArgs e)
         {
@@ -230,6 +241,11 @@ namespace UnitySRPG_Mapmaker
         private void ClickFunc(Object sender,EventArgs e)
         {
             Form2 f = new Form2((sender as Button).Name);
+            f.Show();
+        }
+        private void ClickFunc_All(Object sender, EventArgs e)
+        {
+            Form2 f = new Form2("-1,-1");
             f.Show();
         }
         private void ClickFunc_Row(Object sender,EventArgs e)
@@ -309,6 +325,7 @@ namespace UnitySRPG_Mapmaker
             {
                 string filename = saveFileDialog1.FileName;
                 global_filename = filename;
+                this.Text = filename;
                 StreamWriter sw = new StreamWriter(filename);
                 for(int i = 0; i < matrix.GetLength(0); i++)
                 {
@@ -349,7 +366,7 @@ namespace UnitySRPG_Mapmaker
                     {
                         for (int j = 0; j < y; j++)
                         {
-                            array[i, j].Dispose();
+                            array[i,j].Dispose();
                         }
                     }
                     array.Initialize();
@@ -373,6 +390,7 @@ namespace UnitySRPG_Mapmaker
                 if(matrix!=null)matrix.Initialize();
                 string filename = openFileDialog1.FileName;
                 global_filename = filename;
+                this.Text = global_filename;
                 this.Text = filename;
                 StreamReader sr = new StreamReader(filename);
                 List<string> line = new List<string>();
@@ -442,6 +460,13 @@ namespace UnitySRPG_Mapmaker
                     Column = new Button[y];
                 }
                 matrix = new Data[x,y];
+                if (all == null)
+                {
+                    all = new Button();
+                    all.Location = new Point(0, 0);
+                    all.Size = new Size(space_x, space_y);
+                    all.Click += ClickFunc_All;
+                }
                 for (int i = 0; i < y; i++)
                 {
                     Column[i] = new Button();
@@ -537,6 +562,7 @@ namespace UnitySRPG_Mapmaker
             DialogResult result = MessageBox.Show("保存しますか?","",MessageBoxButtons.YesNo,MessageBoxIcon.Exclamation);
             if (result != DialogResult.Yes) return;
             string filename = global_filename;
+            this.Text = filename;
             StreamWriter sw = new StreamWriter(filename);
             for (int i = 0; i < matrix.GetLength(0); i++)
             {

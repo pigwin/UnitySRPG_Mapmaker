@@ -31,6 +31,17 @@ namespace UnitySRPG_Mapmaker
                 Form1.finish_x = -1;
                 Form1.finish_y = -1;
                 Hani = true;
+                this.Text = string.Format("({0},{1})->({2},{3})", start_y,start_x,  finish_y, finish_x);
+                return;
+            }
+            if (s.Equals("-1,-1"))
+            {
+                start_x = 0;
+                start_y = 0;
+                finish_x = Form1.y - 1;
+                finish_y = Form1.x - 1;
+                Hani = true;
+                this.Text = string.Format("({0},{1})->({2},{3})", start_y, start_x, finish_y, finish_x);
                 return;
             }
             string[] point = s.Split(',');
@@ -66,7 +77,7 @@ namespace UnitySRPG_Mapmaker
                     checkBox2.Checked = false;
                 }
             }
-            
+            this.Text = string.Format("({0},{1})", y, x);
         }
         private void button1_Click(object sender, EventArgs e)
         {
