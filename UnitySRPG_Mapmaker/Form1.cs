@@ -345,9 +345,9 @@ namespace UnitySRPG_Mapmaker
             {
                 if (array != null)
                 {
-                    for (int i = 0; i < y; i++)
+                    for (int i = 0; i < x; i++)
                     {
-                        for (int j = 0; j < x; j++)
+                        for (int j = 0; j < y; j++)
                         {
                             array[i, j].Dispose();
                         }
