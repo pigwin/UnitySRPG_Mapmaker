@@ -533,6 +533,7 @@ namespace UnitySRPG_Mapmaker
                         matrix[j, i].partymember = d % 10;
                         array[j, i].Click += ClickFunc;
                         array[j, i].MouseEnter += MouseOverFunc;
+                        array[j,i].MouseDown += MouseDown;
                         array[j, i].Text = string.Format("H{0}\nU{1}", matrix[j, i].high, matrix[j, i].unit);
                         this.Controls.Add(array[j, i]);
                         ColoredButton(j, i);

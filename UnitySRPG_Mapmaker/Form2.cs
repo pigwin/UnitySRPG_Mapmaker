@@ -40,6 +40,10 @@ namespace UnitySRPG_Mapmaker
                 start_y = 0;
                 finish_x = Form1.x - 1;
                 finish_y = Form1.y - 1;
+                Form1.start_x = -1;
+                Form1.start_y = -1;
+                Form1.finish_x = -1;
+                Form1.finish_y = -1;
                 Hani = true;
                 this.Text = string.Format("({0},{1})->({2},{3})", start_y, start_x, finish_y, finish_x);
                 return;
@@ -92,6 +96,10 @@ namespace UnitySRPG_Mapmaker
                 start_y = 0;
                 finish_y = Form1.y - 1;
             }
+            Form1.start_x = -1;
+            Form1.start_y = -1;
+            Form1.finish_x = -1;
+            Form1.finish_y = -1;
             Hani = true;
         }
         private void button1_Click(object sender, EventArgs e)
@@ -221,9 +229,9 @@ namespace UnitySRPG_Mapmaker
         {
             if (button_check == 0)
             {
-                for(int i = start_x; i <= finish_y; i++)
+                for(int i = start_x; i <= finish_x; i++)
                 {
-                    for(int j = start_y; j <= finish_x; j++)
+                    for(int j = start_y; j <= finish_y; j++)
                     {
                         Form1.ColoredButton(j,i);
                     }
